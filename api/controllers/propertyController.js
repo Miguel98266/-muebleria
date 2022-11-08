@@ -47,7 +47,7 @@ const readByid = async (req, res) => {
             error,
           });
     }
-    const update=await Property.findByIdAndUpdate(id,{counter:property.counter+1},{new:true})
+    const update=await Property.findByIdAndUpdate(id,{counter:property.counter+1},{new:true}).populate('user')
     return res.json(update);
   } catch (error) {
     return res.status(500).json({
