@@ -30,6 +30,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  reference:[{
+    name:String,
+    phoneNumber:String,
+    dni:String
+  }],
   isVerified: {
     type: Boolean,
     default: false,
