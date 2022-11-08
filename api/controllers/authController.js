@@ -40,10 +40,10 @@ const register = async (req, res) => {
 const verifyUser = async (req, res) => {
   try {
     const { id } = req.params;
-    //! CAMBIAR LO CUANDO CREE EL MIDDLEWARE
+ 
     const token = jwt.decode(id, config.jwtSecret);
     const { userId } = token;
-    //!
+
     const verify = await User.findByIdAndUpdate(
       userId,
       {
