@@ -1,6 +1,9 @@
 import Property from "../models/Property.js";
 
 const create = async (req, res) => {
+  const { id } = req.user;
+  req.body.user = id;
+  
   try {
     const property = await Property.create(req.body);
     return res.status(201).json({
@@ -37,23 +40,27 @@ const findFilter = async (req, res) => {
 
 // ! Verificar logica
 const readByid = async (req, res) => {
-    const {id}=req.params
-    console.log(id)
+  const { id } = req.params;
+  console.log(id);
   try {
     const property = await Property.findById(id);
-    if(!property){
-        return res.status(500).json({
-            msj: "Property not found",
-            error,
-          });
+    if (!property) {
+      return res.status(500).json({
+        msj: "Property not found",
+        error,
+      });
     }
-    const update=await Property.findByIdAndUpdate(id,{counter:property.counter+1},{new:true}).populate('user')
+    const update = await Property.findByIdAndUpdate(
+      id,
+      { counter: property.counter + 1 },
+      { new: true }
+    ).populate("user");
     return res.json(update);
   } catch (error) {
     return res.status(500).json({
-        msj: "Failed to find property",
-        error,
-      });
+      msj: "Failed to find property",
+      error,
+    });
   }
 };
 
