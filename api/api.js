@@ -1,5 +1,5 @@
 import express from "express";
-
+import authRoutes from "./routes/authRoutes.js"
 
 const api = express();
 api.use(express.json())
@@ -11,6 +11,5 @@ api.get("/status", (req, res) => {
   });
 });
 
-
-// api.use(userRoutes)
+api.use(authRoutes)
 export default api;
