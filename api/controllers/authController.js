@@ -25,13 +25,13 @@ const register = async (req, res) => {
         <a href=${config.server.url}/auth/verify/${token}>Verification Link</a>
         `,
     });
-    return res.json({
-      msj: "Usuario creado Exitosamente",
+    return res.status(201).json({
+      msj: "User created successfully",
       user,
     });
   } catch (error) {
     return res.status(500).json({
-      msj: "Error al registrar usuario, intente mas tarde",
+      msj: "Failed to create user, please try again later",
       error,
     });
   }

@@ -5,11 +5,11 @@ const propertySchema=new mongoose.Schema({
         type: String,
         required: true,
       },
-    noexterior:{
+    noExterior:{
         type: String,
         required: true,
       },
-    nointerior:{
+    noInterior:{
         type: String,
       },
     zipcode:{
