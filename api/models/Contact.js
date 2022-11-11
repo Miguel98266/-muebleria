@@ -7,7 +7,7 @@ const contactSchema=new mongoose.Schema({
     message:String,
     property:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'property'
+        ref: 'Property'
     },
 })
 

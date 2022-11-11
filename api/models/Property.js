@@ -29,12 +29,17 @@ const propertySchema=new mongoose.Schema({
       },
     offerType:{
         type: String,
+        enum: ['rent', 'to buy'],
+        required: true,
+      },
+      offerProperty:{
+        type: String,
         enum: ['house', 'office', 'apartament','warehouse'],
         required: true,
       },
     price:Number,
     description:String,
-    rooms:String,
+    rooms:Number,
     photos:[String],
     user:{
         type: mongoose.Schema.Types.ObjectId,

@@ -3,27 +3,29 @@ import bcrypt from "bcrypt";
 import jwt from "jwt-simple";
 import config from "../config/index.js";
 import { transporter } from "../config/mailer.js";
+import UserService from "../services/user.js";
+import { email } from "../../templateEmail.js";
+const userService = new UserService();
 
 const register = async (req, res) => {
   try {
     const hashed = await bcrypt.hash(req.body.password, 10);
     req.body.password = hashed;
-    const user = await User.create(req.body);
+    const user = await userService.create(req.body);
     // Reescribimos la variable password para no mandarla
     user.password = undefined;
     const payload = {
       userId: user.id,
     };
     const token = jwt.encode(payload, config.jwtSecret);
-
+    console.log(config.server.url);
+    const templateemail = email(user, config.server.url, token);
+    console.log(templateemail);
     let info = await transporter.sendMail({
       from: '"Verify User" <miguel98266@gmail.com>', // sender address
       to: user.email, // list of receivers
       subject: "Verify User", // Subject line
-      html: `
-        <b> Please click on the following link , to verify your user </b>
-        <a href=${config.server.url}/auth/verify/${token}>Verification Link</a>
-        `,
+      html: templateemail,
     });
     return res.status(201).json({
       msj: "User created successfully",
@@ -40,17 +42,13 @@ const register = async (req, res) => {
 const verifyUser = async (req, res) => {
   try {
     const { id } = req.params;
- 
+
     const token = jwt.decode(id, config.jwtSecret);
     const { userId } = token;
 
-    const verify = await User.findByIdAndUpdate(
-      userId,
-      {
-        isVerified: true,
-      },
-      { new: true }
-    );
+    const verify = await userService.update(userId, {
+      isVerified: true,
+    });
     return res.json({
       msg: "The user was successfully verified",
     });
@@ -70,7 +68,7 @@ const login = async (req, res) => {
     });
   }
   try {
-    const user = await User.findOne({ email: body.email });
+    const user = await userService.findone({ email: body.email });
     if (!user) {
       return res.status(401).json({
         msg: "Invalid credentials",

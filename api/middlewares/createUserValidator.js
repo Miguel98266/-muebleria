@@ -10,7 +10,7 @@ const createUserValidator = async (req, res, next) => {
     birth: joi.date().required().less(adultAge).greater("1-1-1934"), //✅
     dni: joi.string().required().empty(""),//✅
     phoneNumber: joi.string().min(8).max(10),//✅
-    email: joi.string().required().email().empty().trim(),//✅
+    email: joi.string().required().email().empty("").trim(),//✅
     address: joi.object({
       country: joi.string().required(), //✅
       city: joi.string().required(), //✅
@@ -23,6 +23,7 @@ const createUserValidator = async (req, res, next) => {
       dni: joi.string().required(), //✅
     }).required(),
     password: joi.string().empty().min(4).max(30).trim().required(),//✅
+    role:joi.string().required().valid('Admin', 'Client'),
   });
   try {
     await userSchema.validateAsync(req.body)

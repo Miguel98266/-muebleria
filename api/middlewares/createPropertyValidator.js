@@ -1,6 +1,7 @@
 import joi from "joi";
-
 const createPropertyValidator=async(req,res,next)=>{
+    console.log(req.body)
+    
     const propertySchema=joi.object({
         street:joi.string().required().max(150),
         noExterior:joi.string().required().max(5),
@@ -9,12 +10,12 @@ const createPropertyValidator=async(req,res,next)=>{
         city:joi.string().required().max(30),
         country:joi.string().required().max(30),
         borough:joi.string().required().max(30),
-        offerType:joi.string().valid('house', 'office', 'apartament','warehouse'),
+        offerProperty:joi.string().valid('house', 'office', 'apartament','warehouse'),
+        offerType:joi.string().valid('rent','to buy'),
         price:joi.number().greater(0),
         description:joi.string().required().max(250),
         rooms:joi.string().required().max(3),
-        photos:joi.array().min(1).items(joi.string),
-        user:joi.string.required()
+        // photos:joi.array().min(1).items(joi.string),
     })
     
     try {
@@ -27,3 +28,4 @@ const createPropertyValidator=async(req,res,next)=>{
           });
     }
 }
+export default createPropertyValidator;

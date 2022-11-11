@@ -14,13 +14,13 @@ const authValidator = async (req, res, next) => {
     const { userId } = payload;
     if (!userId) {
       return res.status(403).json({
-        msg: "Invalid token",
+        msg: "Invalid token 1",
       });
     }
     const user = await User.findById(userId);
     if (!user) {
       return res.status(403).json({
-        msg: "Invalid token",
+        msg: "Invalid token 2",
       });
     }
     if(!user.isVerified){
@@ -33,7 +33,7 @@ const authValidator = async (req, res, next) => {
     next();
   } catch (error) {
     return res.status(403).json({
-        msg: "Invalid token",
+        msg: "Invalid token error",
       });
   }
 };

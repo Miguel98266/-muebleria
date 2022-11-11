@@ -14,4 +14,9 @@ export default {
     uri: process.env.DB_URI || "mongodb://localhost/test",
   },
   jwtSecret: process.env.JWT_SECRET,
+  cloudinary:{
+    cloudName:process.env.CLOUD_NAME,
+    cloudApi:process.env.CLOUD_API_KEY,
+    cloudSecret:process.env.CLOUD_API_SECRET
+  }
 };
